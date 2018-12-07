@@ -43,18 +43,6 @@ describe "Number" do
       15.151.round(2).should eq(15.15)
     end
 
-    it "2 base" do
-      -1763.116.round(2, base: 2).should eq(-1763.0)
-      753.155.round(2, base: 2).should eq(753.25)
-      15.159.round(2, base: 2).should eq(15.25)
-    end
-
-    it "8 base" do
-      -1763.116.round(2, base: 8).should eq(-1763.109375)
-      753.155.round(1, base: 8).should eq(753.125)
-      15.159.round(0, base: 8).should eq(15.0)
-    end
-
     it "preserves type" do
       123.round(2).should eq(123)
       123.round(2).should be_a(Int32)
@@ -67,7 +55,6 @@ describe "Number" do
 
       123.456.round(-2).should eq(100)
       123_456.123456.round(-5).should eq(100_000)
-      753.155.round(-5, base: 2).should eq(768)
     end
   end
 
