@@ -3223,12 +3223,14 @@ module Crystal
         end
 
         skip_whitespace = false
+        macro_exp = nil
 
         case @token.type
         when .macro_literal?
           pieces << MacroLiteral.new(@token.value.to_s).at(@token.location).at_end(token_end_location)
         when .macro_expression_start?
-          pieces << MacroExpression.new(parse_macro_expression).at(@token.location).at_end(token_end_location)
+          macro_exp = MacroExpression.new(parse_macro_expression).at(@token.location).at_end(token_end_location)
+          pieces << macro_exp
           check_macro_expression_end
           skip_whitespace = check_macro_skip_whitespace
         when .macro_control_start?
@@ -3250,6 +3252,7 @@ module Crystal
           end
           pieces << MacroVar.new(macro_var_name, macro_var_exps)
         when .macro_end?
+          macro_exp.try &.at_end(token_end_location)
           break
         when .eof?
           raise "unterminated macro", start_location
